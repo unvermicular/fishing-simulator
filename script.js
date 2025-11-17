@@ -69,7 +69,7 @@ const rods = [
   { name: 'Aether Rod', cost: 1200000, luck: 275, speed: 44, weight: 24000 },
   { name: 'Prismbloom Rod', cost: 3600000, luck: 400, speed: 54, weight: 62000 },
   { name: 'Roselight Rod', cost: 10000000, luck: 580, speed: 65, weight: 160000 },
-  { name: 'Leviathan Crown Rod', cost: 35000000, luck: 750, speed: 75, weight: 320000 }
+  { name: 'Leviathan Crown Rod', cost: 35000000, luck: 750, speed: 75, weight: 32000000 }
 ];
 
 const baits = [
@@ -83,7 +83,7 @@ const baits = [
   { name: 'Emberrose Bait', rarity: 'Epic', cost: 480000, luck: 90 },
   { name: 'Aurora Bait', rarity: 'Legendary', cost: 1400000, luck: 115 },
   { name: 'Celestial Bait', rarity: 'Mythic', cost: 4000000, luck: 140 },
-  { name: 'Leviathan Lullaby Bait', rarity: 'Relic', cost: 12000000, luck: 180 }
+  { name: 'Leviathan Lullaby Bait', rarity: 'Relic', cost: 12000000, luck: 18000 }
 ];
 
 const fishDatabase = {

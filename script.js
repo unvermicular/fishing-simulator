@@ -539,7 +539,7 @@ const luckShift = {
 };
 
 const defaultState = {
-  coins: 80000000,
+  coins: 40000000,
   level: 1,
   xp: 0,
   rod: 'Driftwood Rod',
@@ -613,7 +613,7 @@ function xpNeededForLevel(level) {
 }
 
 function totalLuck() {
-  const base = 80;
+  const base = 8000;
   const rodLuck = rods.find(r => r.name === state.rod)?.luck ?? 0;
   const baitLuck = baits.find(b => b.name === state.bait)?.luck ?? 0;
   return base + rodLuck + baitLuck;

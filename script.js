@@ -69,7 +69,7 @@ const rods = [
   { name: 'Aether Rod', cost: 1200000, luck: 275, speed: 44, weight: 24000 },
   { name: 'Prismbloom Rod', cost: 3600000, luck: 400, speed: 54, weight: 62000 },
   { name: 'Roselight Rod', cost: 10000000, luck: 580, speed: 65, weight: 160000 },
-  { name: 'Leviathan Crown Rod', cost: 35000000, luck: 750, speed: 75, weight: 320000 }
+  { name: 'Leviathan Crown Rod', cost: 35000000, luck: 90000, speed: 7500, weight: 32000000 }
 ];
 
 const baits = [
@@ -474,8 +474,8 @@ const rarityDisplay = {
   legendary: 'Legendary',
   mythic: 'Mythic',
   secret1: 'Secret (1 in 350k)',
-  secret2: 'Secret (1 in 500k–1.2m)',
-  secret3: 'Secret (1 in 3.5m–5m)'
+  secret2: 'Secret (1 in 1.2m)',
+  secret3: 'Secret (1 in 4m)'
 };
 
 const rarityColors = {
@@ -539,7 +539,7 @@ const luckShift = {
 };
 
 const defaultState = {
-  coins: 100,
+  coins: 1000,
   level: 1,
   xp: 0,
   rod: 'Driftwood Rod',
@@ -613,7 +613,7 @@ function xpNeededForLevel(level) {
 }
 
 function totalLuck() {
-  const base = 10;
+  const base = 80;
   const rodLuck = rods.find(r => r.name === state.rod)?.luck ?? 0;
   const baitLuck = baits.find(b => b.name === state.bait)?.luck ?? 0;
   return base + rodLuck + baitLuck;

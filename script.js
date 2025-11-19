@@ -583,8 +583,15 @@ const elements = {
   sellAll: document.getElementById('sell-all')
 };
 
+function formatCoinValue(value) {
+  if (Math.abs(value) >= 1_000_000) {
+    return `${(value / 1_000_000).toFixed(2)}m`;
+  }
+  return value.toLocaleString();
+}
+
 function formatCoins(value) {
-  return `${value.toLocaleString()} coins`;
+  return `${formatCoinValue(value)} coins`;
 }
 
 function formatWeight(weight) {
@@ -638,7 +645,7 @@ function addLog(message) {
 
 function updateStats() {
   elements.level.textContent = state.level;
-  elements.coins.textContent = state.coins.toLocaleString();
+  elements.coins.textContent = formatCoinValue(state.coins);
   elements.luck.textContent = `${totalLuck().toFixed(0)}%`;
   elements.speed.textContent = `${rodSpeed().toFixed(0)}%`;
   elements.capacity.textContent = `${rodCapacity().toLocaleString()} KG`;
@@ -863,7 +870,7 @@ function renderInventory() {
       <td>${item.name}</td>
       <td style="color:${rarityColors[item.rarityKey]}">${item.rarity}</td>
       <td>${formatWeight(item.weight)}</td>
-      <td>${item.value.toLocaleString()} coins</td>
+      <td>${formatCoins(item.value)}</td>
       <td>${item.location}</td>
     `;
     elements.inventoryBody.appendChild(tr);
@@ -876,7 +883,7 @@ function sellFish(filterFn) {
   const earnings = selling.reduce((sum, fish) => sum + fish.value, 0);
   state.inventory = state.inventory.filter(item => !filterFn(item));
   state.coins += earnings;
-  addLog(`Sold ${selling.length} fish for ${earnings.toLocaleString()} coins.`);
+  addLog(`Sold ${selling.length} fish for ${formatCoinValue(earnings)} coins.`);
   renderInventory();
   updateStats();
   saveGame();

@@ -583,11 +583,29 @@ const elements = {
   sellAll: document.getElementById('sell-all')
 };
 
-function formatCoinValue(value) {
-  if (Math.abs(value) >= 1_000_000) {
+function formatCompactNumber(value) {
+  const abs = Math.abs(value);
+  if (abs >= 1_000_000_000_000) {
+    return `${(value / 1_000_000_000_000).toFixed(2)}t`;
+  }
+  if (abs >= 1_000_000_000) {
+    return `${(value / 1_000_000_000).toFixed(2)}b`;
+  }
+  if (abs >= 1_000_000) {
     return `${(value / 1_000_000).toFixed(2)}m`;
   }
-  return value.toLocaleString();
+  if (abs >= 1_000) {
+    return `${(value / 1_000).toFixed(2)}k`;
+  }
+  const isInteger = Number.isInteger(value);
+  return value.toLocaleString(undefined, {
+    minimumFractionDigits: isInteger ? 0 : 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function formatCoinValue(value) {
+  return formatCompactNumber(value);
 }
 
 function formatCoins(value) {
@@ -646,9 +664,9 @@ function addLog(message) {
 function updateStats() {
   elements.level.textContent = state.level;
   elements.coins.textContent = formatCoinValue(state.coins);
-  elements.luck.textContent = `${totalLuck().toFixed(0)}%`;
-  elements.speed.textContent = `${rodSpeed().toFixed(0)}%`;
-  elements.capacity.textContent = `${rodCapacity().toLocaleString()} KG`;
+  elements.luck.textContent = `${formatCompactNumber(totalLuck())}%`;
+  elements.speed.textContent = `${formatCompactNumber(rodSpeed())}%`;
+  elements.capacity.textContent = `${formatCompactNumber(rodCapacity())} KG`;
   elements.currentXp.textContent = state.xp.toLocaleString();
   const needed = xpNeededForLevel(state.level);
   elements.nextLevelXp.textContent = needed.toLocaleString();
@@ -697,8 +715,8 @@ function createShopItem(item, type) {
   const node = template.content.cloneNode(true);
   node.querySelector('.item-name').textContent = item.name;
   const meta = type === 'rod'
-    ? `Luck +${item.luck}% · Speed +${item.speed}% · Capacity ${item.weight.toLocaleString()} KG`
-    : `${item.rarity} · Luck +${item.luck}%`;
+    ? `Luck +${formatCompactNumber(item.luck)}% · Speed +${formatCompactNumber(item.speed)}% · Capacity ${formatCompactNumber(item.weight)} KG`
+    : `${item.rarity} · Luck +${formatCompactNumber(item.luck)}%`;
   node.querySelector('.item-meta').textContent = meta;
   node.querySelector('.item-cost').textContent = formatCoins(item.cost);
   const button = node.querySelector('button');
@@ -826,7 +844,7 @@ function fishOnce() {
   }
   const capacity = rodCapacity();
   if (fish.weight > capacity) {
-    elements.lastCatch.textContent = `${fish.name} (${formatWeight(fish.weight)}) snapped the line (capacity ${capacity.toLocaleString()} KG).`;
+    elements.lastCatch.textContent = `${fish.name} (${formatWeight(fish.weight)}) snapped the line (capacity ${formatCompactNumber(capacity)} KG).`;
     elements.lineStatus.textContent = 'Catch failed - upgrade rod capacity.';
     addLog(`${fish.name} was too heavy for your ${state.rod}.`);
     return;
@@ -883,7 +901,7 @@ function sellFish(filterFn) {
   const earnings = selling.reduce((sum, fish) => sum + fish.value, 0);
   state.inventory = state.inventory.filter(item => !filterFn(item));
   state.coins += earnings;
-  addLog(`Sold ${selling.length} fish for ${formatCoinValue(earnings)} coins.`);
+  addLog(`Sold ${selling.length} fish for ${formatCoinValue(earnings)} coins!`);
   renderInventory();
   updateStats();
   saveGame();

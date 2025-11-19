@@ -539,7 +539,7 @@ const luckShift = {
 };
 
 const defaultState = {
-  coins: 1000,
+  coins: 80000000,
   level: 1,
   xp: 0,
   rod: 'Driftwood Rod',

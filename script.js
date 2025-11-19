@@ -511,7 +511,7 @@ const sellMultipliers = {
   mythic: 260,
   secret1: 450,
   secret2: 650,
-  secret3: 1000
+  secret3: 1234
 };
 
 const secretOdds = {

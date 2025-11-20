@@ -1154,13 +1154,17 @@ const sellMultipliers = {
   secret1: 450,
   secret2: 650,
   secret3: 9834,
+  secret4: 15000,
+  secret5: 30000,
 };
 
 // Base secret odds now match display
 const secretOdds = {
-  secret1: 1 / 350000,
-  secret2: 1 / 1200000,
-  secret3: 1 / 4250000,
+  secret1: 1 / 250000,
+  secret2: 1 / 750000,
+  secret3: 1 / 2500000,
+  secret4: 1 / 7500000,
+  secret5: 1 / 22000000,
 };
 
 const baseWeights = {
@@ -1175,7 +1179,7 @@ const baseWeights = {
 // Positive = shifts toward higher rarity; negative = away from it
 const luckShift = {
   common: -0.12,
-  uncommon: 0.02,
+  uncommon: -0.02,
   rare: 0.05,
   epic: 0.08,
   legendary: 0.11,
@@ -1186,7 +1190,7 @@ const luckShift = {
 // State & persistence
 // -----------------------------
 const defaultState = {
-  coins: 1000, // tuned down from 40,000,000
+  coins: 2000,
   level: 1,
   xp: 0,
   rod: "Driftwood Rod",
@@ -1296,8 +1300,8 @@ function effectiveLuck() {
   const rodLuck = rods.find((r) => r.name === state.rod)?.luck ?? 0;
   const baitLuck = baits.find((b) => b.name === state.bait)?.luck ?? 0;
   const raw = Math.max(0, rodLuck + baitLuck);
-  const eff = Math.log10(1 + raw) * 50; // ~0..700 band
-  return Math.min(700, eff);
+  const eff = Math.log10(1 + raw) * 500; // ~0..700 band
+  return Math.min(20000, eff);
 }
 
 // Legacy name retained for UI update calls

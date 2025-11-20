@@ -17,7 +17,7 @@ const locations = {
     description: 'Smouldering mangroves crackle above ember-lit water.',
     theme: {
       bg: 'linear-gradient(120deg, #2a1914, #663020)',
-      accent: '#000000'
+      accent: '#ff9b53'
     }
   },
   'Verdant Expanse': {

@@ -1,6 +1,6 @@
 # Fishing Simulator
 
-A responsive browser-based fishing RPG that recreates the Aurora Angling Guild experience. Cast from ten unique locations, unlock twelve rods and eleven bait types, and discover 288 unique fish with Gaussian weight rolls, rarity-driven payouts, and a flexible leveling curve.
+A responsive browser-based fishing RPG that recreates the Aurora Angling Guild experience. Cast from ten unique locations, unlock twelve rods and eleven bait types, and discover 700 unique fish with Gaussian weight rolls, rarity-driven payouts, and a flexible leveling curve.
 
 ## Features
 
@@ -8,7 +8,7 @@ A responsive browser-based fishing RPG that recreates the Aurora Angling Guild e
 Change your fishing location to completely re-theme the interface and access different fish pools:
 - **10 Unique Locations** – Each with distinct visual themes (gradients, accent colors) and atmospheric descriptions
 - **Seamless Theme Transitions** – Background, accent colors, and UI elements adapt to match the current location
-- **Location-Specific Fish** – Every biome hosts a unique set of 36 fish species across six rarity tiers
+- **Location-Specific Fish** – Every biome hosts a unique set of 70 fish species across six rarity tiers
 
 ### 🎣 Accurate Fishing Logic
 Realistic fishing mechanics powered by advanced algorithms:

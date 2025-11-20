@@ -68,7 +68,7 @@ Six standard tiers plus five secret tiers:
 
 **Luck System**: Effective luck is calculated using logarithmic scaling to normalize gear values:
 - Formula: `effectiveLuck = Math.log10(1 + rodLuck + baitLuck) × 50`
-- Capped at 700 points maximum
+- Capped at 20,000 points maximum
 - Higher luck increases probability of rarer catches
 
 ### Weight Generation

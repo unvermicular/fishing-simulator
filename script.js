@@ -1096,7 +1096,14 @@ const fishDatabase = {
 // -----------------------------
 // Rarity, rewards, economy
 // -----------------------------
-const rarityOrder = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "secret1", "secret2", "secret3", "secret4", "secret5", "secret6"];
+const rarityOrder = [
+  "common",
+  "uncommon",
+  "rare",
+  "epic",
+  "legendary",
+  "mythic",
+];
 
 // Align display text with intended base odds
 const rarityDisplay = {
@@ -1171,12 +1178,12 @@ const baseWeights = {
 
 // Positive = shifts toward higher rarity; negative = away from it
 const luckShift = {
-  common: -0.00105,
-  uncommon: -0.00035,
-  rare: 0.00028,
-  epic: 0.000525,
-  legendary: 0.00021,
-  mythic: 0.00007
+  common: -0.12,
+  uncommon: -0.02,
+  rare: 0.05,
+  epic: 0.08,
+  legendary: 0.11,
+  mythic: 0.15,
 };
 
 // -----------------------------
@@ -1290,14 +1297,12 @@ function xpNeededForLevel(level) {
 // Convert huge gear numbers into a modest 0..700 band using log scaling,
 // so absurd values don't blow up the RNG.
 function effectiveLuck() {
-  let base = (state.rodsOwned.find(r => r.name === state.rod)?.luck ?? 0) +
-             (state.baitsOwned.find(b => b.name === state.bait)?.luck ?? 0);
-
-  // Logarithmic scaling for values above 5000
-  if (base > 5000) {
-    const excess = base - 5000;
-    base = 5000 + Math.log10(excess + 1) * 2000;
-  }
+  const rodLuck = rods.find((r) => r.name === state.rod)?.luck ?? 0;
+  const baitLuck = baits.find((b) => b.name === state.bait)?.luck ?? 0;
+  const raw = Math.max(0, rodLuck + baitLuck);
+  const eff = Math.log10(1 + raw) * 500; // ~0..700 band
+  return Math.min(20000, eff);
+}
 
 // Legacy name retained for UI update calls
 function totalLuck() {
@@ -1492,23 +1497,17 @@ function equipBait(name) {
 function rollRarity() {
   const L = effectiveLuck(); // 0..700
 
-  const s5 = Math.min(0.1, 0.0001 + L * 0.0000000045);  // ~1 in 22m
-  const s4 = Math.min(0.1, 0.0001 + L * 0.000000013);   // ~1 in 7.5m
-  const s3 = Math.min(0.1, 0.0001 + L * 0.00000004);    // ~1 in 2.5m
-  const s2 = Math.min(0.1, 0.0001 + L * 0.00000013);    // ~1 in 750k
-  const s1 = Math.min(0.1, 0.0001 + L * 0.0000004);     // ~1 in 250k
+  // Secrets get small additive boosts (no multiplicative explosion)
+  const s3 = Math.min(0.1, secretOdds.secret3 + L * 0.00000025); // up to ~0.17% @ cap
+  const s2 = Math.min(0.1, secretOdds.secret2 + L * 0.0000005); // up to ~0.35% @ cap
+  const s1 = Math.min(0.1, secretOdds.secret1 + L * 0.000001); // up to ~0.70% @ cap
 
   let r = Math.random();
-  if (rng < s5) return "secret5";
-    r -= s5;
-  if (rng < s4) return "secret4";
-    r -= s4;
-  if (rng < s3) return "secret3";
-    r -= s3;
-  if (rng < s2) return "secret2";
-    r -= s2;
-  if (rng < s1) return "secret1";
-    r -= s1;
+  if (r < s3) return "secret3";
+  r -= s3;
+  if (r < s2) return "secret2";
+  r -= s2;
+  if (r < s1) return "secret1";
 
   // Weighted roll for normal rarities with capped influence of luck
   const scores = rarityOrder.map((rarity) => {
